@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HESS – Hybrid Energy Diagnostic Simulator</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.js for real-time visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+        <!-- GLOBAL HEADER -->
+        <header id="main-header">
+            <div class="header-left">
+                <span class="header-icon">⬢</span>
+                <h1>HESS <span class="dim">EV DIAGNOSTIC SYSTEM</span></h1>
+            </div>
+            <div id="mode-hud" class="header-right">
+                <div class="hud-label">OPERATING MODE</div>
+                <div id="ems-mode-display" class="mode-text">CRUISE MODE</div>
+            </div>
+        </header>
+
+        <div id="workspace">
+            <!-- SIDEBAR CONTROLS -->
+            <aside id="sidebar">
+                <div class="panel-header">
+                    <h2>Simulation Controls</h2>
+                </div>
+
+                <div class="control-box">
+                    <div class="control-group">
+                        <label>Throttle</label>
+                        <input type="range" id="throttle-input" min="0" max="100" value="0">
+                        <span id="throttle-val">0%</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Braking</label>
+                        <input type="range" id="brake-input" min="0" max="100" value="0">
+                        <span id="brake-val">0%</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Road</label>
+                        <select id="road-select" class="control-select">
+                            <option value="smooth">Smooth Hwy</option>
+                            <option value="city" selected>City Road</option>
+                            <option value="rough">Rough Road</option>
+                            <option value="speed-breaker">Speed Bump</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="button-grid">
+                    <button id="boost-btn" class="btn-primary">BOOST SURGE</button>
+                    <button id="cruise-btn" class="btn-secondary">SET CRUISE</button>
+                    <button id="demo-btn" class="btn-info">START DEMO MODE</button>
+                    <button id="export-btn" class="btn-success">EXPORT DATA</button>
+                    <button id="reset-btn" class="btn-danger">RESET SYSTEM</button>
+                </div>
+
+                <div class="sidebar-info">
+                    <div class="info-row">
+                        <label>Status</label>
+                        <span class="status-online">ONLINE</span>
+                    </div>
+                    <div class="info-row">
+                        <label>Frame Rate</label>
+                        <span>60 FPS</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- MAIN CONTENT AREA -->
+            <main id="main-content">
+                <!-- TOP: Animation Area -->
+                <section id="viz-area">
+                    <canvas id="simulation-canvas"></canvas>
+
+                    <!-- Power Surge Flash Indicator (Centered Overlay) -->
+                    <div id="surge-indicator" class="surge-overlay">
+                        <div class="surge-content">
+                            <span class="surge-icon">⚡</span>
+                            <span class="surge-text">POWER SURGE ACTIVE</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- BOTTOM: Diagnostic Grid -->
+                <section id="diagnostic-grid">
+                    <!-- Column 1: Power Architecture -->
+                    <div class="diag-card">
+                        <div class="panel-header">
+                            <h2>Power Flow Architecture</h2>
+                        </div>
+                        <div class="circuit-container">
+                            <svg id="circuit-svg" viewBox="0 -20 600 340">
+                                <line id="circuit-dc-bus" x1="300" y1="20" x2="300" y2="280" class="circuit-bus" />
+                                <path d="M 150 70 L 300 70" class="circuit-path" />
+                                <path d="M 150 230 L 300 230" class="circuit-path" />
+                                <path d="M 300 150 L 450 150" class="circuit-path" />
+                                <path d="M 450 230 L 300 230" class="circuit-path" /> <!-- Susp to Bus -->
+
+                                <path id="anim-batt" d="M 150 70 L 300 70" class="flow-anim flow-idle" />
+                                <path id="anim-sc" d="M 150 230 L 300 230" class="flow-anim flow-idle" />
+                                <path id="anim-motor" d="M 300 150 L 450 150" class="flow-anim flow-idle" />
+                                <path id="anim-susp" d="M 450 230 L 300 230" class="flow-anim flow-idle" />
+
+                                <g id="circuit-batt-box" class="circuit-box" transform="translate(50, 40)">
+                                    <rect width="100" height="60" rx="4" />
+                                    <text x="50" y="38" text-anchor="middle" class="circuit-text">BATTERY</text>
+                                </g>
+                                <g id="circuit-sc-box" class="circuit-box" transform="translate(50, 200)">
+                                    <rect width="100" height="60" rx="4" />
+                                    <text x="50" y="38" text-anchor="middle" class="circuit-text">SUPERCAP</text>
+                                </g>
+                                <g transform="translate(250, 0)">
+                                    <rect width="100" height="30" rx="4" class="bus-box" />
+                                    <text x="50" y="20" text-anchor="middle" class="bus-text">DC BUS</text>
+                                </g>
+                                <g id="circuit-motor-box" class="circuit-box" transform="translate(450, 120)">
+                                    <rect width="100" height="60" rx="4" />
+                                    <text x="50" y="38" text-anchor="middle" class="circuit-text">MOTOR</text>
+                                </g>
+                                <g id="circuit-susp-box" class="circuit-box" transform="translate(450, 200)">
+                                    <rect width="100" height="60" rx="4" />
+                                    <text x="50" y="38" text-anchor="middle" class="circuit-text">SUSP GEN</text>
+                                </g>
+                            </svg>
+                            <!-- Overlay Canvas for Particle System -->
+                            <canvas id="energy-flow-canvas"></canvas>
+                        </div>
+                        <div class="contribution-summary">
+                            <div class="summary-stat">
+                                <label>Batt Pct</label>
+                                <span id="summary-batt-pct">0%</span>
+                            </div>
+                            <div class="summary-stat">
+                                <label>SC Pct</label>
+                                <span id="summary-sc-pct">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Live Performance -->
+                    <div class="diag-card">
+                        <div class="panel-header">
+                            <h2>Engineering Metrics</h2>
+                        </div>
+                        <div class="gauges-flex">
+                            <div class="gauge-wrapper">
+                                <div id="gauge-speed" class="gauge-svg-container"></div>
+                                <div class="gauge-meta">SPEED (km/h)</div>
+                            </div>
+                            <div class="gauge-wrapper">
+                                <div id="gauge-power" class="gauge-svg-container"></div>
+                                <div class="gauge-meta">POWER (kW)</div>
+                            </div>
+                        </div>
+
+                        <!-- Suspension Energy Harvesting Prominence -->
+                        <div class="suspension-strip">
+                            <div class="strip-item">
+                                <label>REGEN VOLTS</label>
+                                <span id="val-susp-v">0.0 V</span>
+                            </div>
+                            <div class="strip-item">
+                                <label>HARVEST POWER</label>
+                                <span id="val-susp-p">0 W</span>
+                            </div>
+                            <div class="strip-item">
+                                <label>TOTAL RECOVERY</label>
+                                <span id="val-susp-total">0.000 Wh</span>
+                            </div>
+                        </div>
+
+                        <div class="soc-compact-grid">
+                            <div class="soc-item">
+                                <div class="soc-label">BATTERY SOC <span id="val-batt-soc" class="soc-val">0%</span>
+                                </div>
+                                <div class="soc-bar-outer">
+                                    <div id="bar-batt-soc" class="soc-bar-inner"></div>
+                                </div>
+                            </div>
+                            <div class="soc-item">
+                                <div class="soc-label">SUPERCAP SOC <span id="val-sc-soc" class="soc-val">0%</span>
+                                </div>
+                                <div class="soc-bar-outer">
+                                    <div id="bar-sc-soc" class="soc-bar-inner"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 3: Analytical Trends -->
+                    <div class="diag-card">
+                        <div class="panel-header">
+                            <h2>Analytical Trends</h2>
+                        </div>
+                        <div class="charts-stack">
+                            <div class="chart-box"><canvas id="chart-current"></canvas></div>
+                            <div class="chart-box"><canvas id="chart-speed-power"></canvas></div>
+                        </div>
+
+                    </div>
+        </div>
+        </section>
+        </main>
+    </div>
+
+    <!-- GLOBAL FOOTER: Status Bar -->
+    <footer id="main-footer">
+        <div class="footer-item"><span class="label">ENGINE_STATE:</span> <span class="val neon-green">IDLE</span>
+        </div>
+        <div class="footer-item"><span class="label">DIAGNOSTICS:</span> <span class="val">ACTIVE</span></div>
+        <div class="footer-item"><span class="label">VERSION:</span> <span class="val">v2.0.0-PRO</span></div>
+    </footer>
+    </div>
+
+    <!-- Phase 5: Suspension Inspection Overlay -->
+    <div id="suspension-overlay" class="suspension-overlay">
+        <div class="inspection-card">
+            <div class="inspection-header">
+                <h2>Regenerative Suspension Kinematics & Generation</h2>
+                <button id="suspension-close" class="close-btn">&times;</button>
+            </div>
+
+            <div class="inspection-body">
+                <canvas id="suspension-popup-canvas"></canvas>
+
+                <div class="inspection-metrics">
+                    <div class="metric-box">
+                        <span class="m-label">Compression</span>
+                        <span class="m-val" id="popup-val-comp">0.0 mm</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="m-label">Strut Velocity</span>
+                        <span class="m-val" id="popup-val-vel">0.0 m/s</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="m-label">Spring Force</span>
+                        <span class="m-val" id="popup-val-spring-force">0 N</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="m-label">Damper Force</span>
+                        <span class="m-val" id="popup-val-damper-force">0 N</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="m-label">Generator Torque</span>
+                        <span class="m-val" id="popup-val-torque">0.0 Nm</span>
+                    </div>
+                    <div class="metric-box highlight-box">
+                        <span class="m-label">Instant Harvested Power</span>
+                        <span class="m-val highlight" id="popup-val-power">0 W</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ES6 Module import -->
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>

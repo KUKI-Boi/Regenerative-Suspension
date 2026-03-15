@@ -1,0 +1,10 @@
+node_modules/
+.DS_Store
+.gemini/
+.agent/
+.agents/
+/tmp/
+*.log
+.env
+dist/
+build/
