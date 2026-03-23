@@ -868,7 +868,13 @@ button:active {
 /* ═══════════════════════════════════════════════════════════════
    RESPONSIVE OVERRIDES
    ═══════════════════════════════════════════════════════════════ */
-@media (max-width: 1024px) {
+
+#viz-area {
+    /* Prevent canvas from overflowing visually if flexbox shrinks it */
+    overflow: hidden;
+}
+
+@media (max-width: 1200px), (max-height: 800px) and (orientation: landscape) {
     body {
         height: auto;
         overflow-y: auto;
@@ -881,6 +887,7 @@ button:active {
 
     #workspace {
         flex-direction: column;
+        overflow: visible;
     }
 
     #sidebar {
@@ -889,7 +896,7 @@ button:active {
         border-bottom: 1px solid var(--border-color);
         height: auto;
         padding: 15px;
-        order: 2; /* Put controls below the simulation on mobile */
+        order: 2; /* Controls below simulation */
     }
 
     #main-content {
@@ -899,7 +906,7 @@ button:active {
     }
 
     #viz-area {
-        height: 300px;
+        height: 40vh;
         min-height: 250px;
     }
 
@@ -913,6 +920,7 @@ button:active {
         border-bottom: 1px solid var(--border-color);
         min-height: auto;
         padding: 20px;
+        overflow: visible;
     }
 
     .gauges-flex {
@@ -1003,7 +1011,7 @@ button:active {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
     .button-grid {
         grid-template-columns: 1fr;
     }
