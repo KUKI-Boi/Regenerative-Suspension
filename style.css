@@ -864,3 +864,97 @@ button:active {
     background: var(--border-color);
     border-radius: 2px;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE DESIGN (MOBILE / TABLET)
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+    body, #app {
+        height: auto;
+        overflow: auto;
+        overflow-x: hidden;
+    }
+
+    #workspace {
+        flex-direction: column;
+        overflow: visible;
+    }
+
+    #sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 3px solid var(--border-color);
+        max-height: none;
+    }
+
+    #main-content {
+        overflow: visible;
+    }
+
+    #diagnostic-grid {
+        grid-template-columns: 1fr;
+        overflow: visible;
+    }
+
+    .diag-card {
+        border-bottom: 2px solid var(--border-color);
+        overflow: visible;
+    }
+
+    /* Stack gauges */
+    .gauges-flex {
+        flex-direction: column;
+    }
+
+    /* Header stacking */
+    #main-header {
+        height: auto;
+        flex-direction: column;
+        padding: 15px 10px;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .header-left {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    #mode-hud {
+        text-align: center;
+    }
+
+    /* Footer stacking */
+    #main-footer {
+        height: auto;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 10px;
+        gap: 10px;
+    }
+
+    /* Adjust main viz height to leave room for gauges */
+    #viz-area {
+        height: 250px;
+    }
+    
+    .inspection-card {
+        width: 95%;
+        margin: 10px;
+    }
+    
+    .inspection-body {
+        flex-direction: column;
+    }
+    
+    .inspection-metrics {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .metric-box {
+        flex: 1 1 40%;
+    }
+}
