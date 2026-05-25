@@ -1,6 +1,10 @@
 # ⚡ EV Regenerative Suspension Simulator
 
 ### Hybrid Energy Storage + Regenerative Suspension System
+
+<p align="center">
+  <img src="assets/regen_animation.svg" alt="Regenerative Suspension EV Simulation" width="100%">
+</p>
  
 🔗 **Live Demo:**
 https://kuki-boi.github.io/Regenerative-Suspension/

@@ -1,0 +1,671 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" width="100%" height="100%">
+  <defs>
+    <!-- Fonts -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap');
+      
+      /* Global styles */
+      svg {
+        background-color: #06090f;
+        font-family: 'Inter', -apple-system, sans-serif;
+      }
+      
+      .mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      
+      /* Animations */
+      @keyframes pulse {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 1; }
+      }
+      
+      @keyframes pulse-glow-green {
+        0%, 100% { filter: drop-shadow(0 0 1px #3fb950); opacity: 0.7; }
+        50% { filter: drop-shadow(0 0 5px #3fb950); opacity: 1; }
+      }
+      
+      @keyframes pulse-glow-blue {
+        0%, 100% { filter: drop-shadow(0 0 1px #58a6ff); opacity: 0.7; }
+        50% { filter: drop-shadow(0 0 5px #58a6ff); opacity: 1; }
+      }
+      
+      @keyframes pulse-glow-orange {
+        0%, 100% { filter: drop-shadow(0 0 1px #ff8c00); opacity: 0.7; }
+        50% { filter: drop-shadow(0 0 5px #ff8c00); opacity: 1; }
+      }
+      
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      
+      @keyframes suspension-active {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        25% { transform: translateY(-3.5px) rotate(0.8deg); }
+        50% { transform: translateY(2.5px) rotate(-1deg); }
+        75% { transform: translateY(-1.5px) rotate(0.4deg); }
+      }
+      
+      @keyframes spring-compress-rear {
+        0%, 100% { transform: scaleY(1); }
+        25% { transform: scaleY(0.88); }
+        50% { transform: scaleY(1.12); }
+        75% { transform: scaleY(0.96); }
+      }
+      
+      @keyframes spring-compress-front {
+        0%, 100% { transform: scaleY(1); }
+        25% { transform: scaleY(0.92); }
+        50% { transform: scaleY(1.08); }
+        75% { transform: scaleY(0.96); }
+      }
+      
+      @keyframes road-scroll {
+        from { stroke-dashoffset: 0; }
+        to { stroke-dashoffset: -35; }
+      }
+      
+      @keyframes road-wave-scroll {
+        from { transform: translateX(0); }
+        to { transform: translateX(-200px); }
+      }
+      
+      @keyframes grid-scroll {
+        from { transform: translateX(0); }
+        to { transform: translateX(-40px); }
+      }
+      
+      @keyframes wave-scroll {
+        from { transform: translateX(0); }
+        to { transform: translateX(-200px); }
+      }
+      
+      @keyframes flow-slow {
+        from { stroke-dashoffset: 0; }
+        to { stroke-dashoffset: -40; }
+      }
+      
+      @keyframes flow-fast {
+        from { stroke-dashoffset: 0; }
+        to { stroke-dashoffset: -30; }
+      }
+      
+      @keyframes flow-combined {
+        from { stroke-dashoffset: 0; }
+        to { stroke-dashoffset: -35; }
+      }
+      
+      @keyframes scan {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(58px); }
+      }
+      
+      /* HUD Typography styling */
+      .hud-title {
+        fill: #ffffff;
+        font-weight: 800;
+        font-size: 16px;
+        letter-spacing: 4px;
+        text-anchor: middle;
+        filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.4));
+      }
+      
+      .hud-subtitle {
+        fill: #8b949e;
+        font-size: 9px;
+        letter-spacing: 2px;
+        text-anchor: middle;
+        font-weight: 600;
+      }
+      
+      .hud-label {
+        fill: #8b949e;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 1px;
+      }
+      
+      .hud-value {
+        fill: #ffffff;
+        font-weight: bold;
+        font-size: 11px;
+      }
+      
+      .green-glow-text {
+        fill: #56d364;
+        filter: drop-shadow(0 0 2px rgba(86, 211, 100, 0.4));
+      }
+      
+      .blue-glow-text {
+        fill: #58a6ff;
+        filter: drop-shadow(0 0 2px rgba(88, 166, 255, 0.4));
+      }
+      
+      .orange-glow-text {
+        fill: #ff8c00;
+        filter: drop-shadow(0 0 2px rgba(255, 140, 0, 0.4));
+      }
+      
+      .yellow-glow-text {
+        fill: #ffea7f;
+        filter: drop-shadow(0 0 2px rgba(255, 234, 127, 0.4));
+      }
+      
+      /* Active states */
+      .ind-active-green {
+        fill: #3fb950;
+        animation: pulse-glow-green 1.5s ease-in-out infinite;
+      }
+      
+      .ind-active-blue {
+        fill: #58a6ff;
+        animation: pulse-glow-blue 1.5s ease-in-out infinite;
+      }
+      
+      .ind-active-orange {
+        fill: #ff8c00;
+        animation: pulse-glow-orange 1.5s ease-in-out infinite;
+      }
+      
+      /* Animation class tags */
+      .car-group {
+        animation: suspension-active 1.5s ease-in-out infinite;
+        transform-origin: 200px 60px;
+      }
+      
+      .susp-spring-rear {
+        animation: spring-compress-rear 1.5s ease-in-out infinite;
+        transform-origin: 0px 0px;
+      }
+      
+      .susp-spring-front {
+        animation: spring-compress-front 1.5s ease-in-out infinite;
+        transform-origin: 0px 0px;
+      }
+      
+      .wheel-spokes {
+        animation: spin 0.7s linear infinite;
+        transform-origin: 0px 0px;
+      }
+      
+      .road-dashes {
+        animation: road-scroll 0.5s linear infinite;
+      }
+      
+      .road-waves {
+        animation: road-wave-scroll 1.2s linear infinite;
+      }
+      
+      .grid-lines {
+        animation: grid-scroll 0.7s linear infinite;
+      }
+      
+      .wave-scroll-group {
+        animation: wave-scroll 4.5s linear infinite;
+      }
+      
+      /* Power flow lines */
+      .flow-line {
+        fill: none;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+      }
+      .flow-line-bg {
+        fill: none;
+        stroke-width: 2.5;
+        opacity: 0.12;
+      }
+      .flow-batt-bg { stroke: #2ea043; }
+      .flow-batt-fg {
+        stroke: #3fb950;
+        stroke-dasharray: 6 18;
+        animation: flow-slow 1.6s linear infinite;
+      }
+      .flow-sc-bg { stroke: #1f6feb; }
+      .flow-sc-fg {
+        stroke: #58a6ff;
+        stroke-dasharray: 6 12;
+        animation: flow-fast 0.8s linear infinite;
+      }
+      .flow-motor-bg { stroke: #da8735; }
+      .flow-motor-fg {
+        stroke: #f2a154;
+        stroke-dasharray: 8 16;
+        animation: flow-combined 1.1s linear infinite;
+      }
+      .flow-susp-bg { stroke: #ff8c00; }
+      .flow-susp-fg {
+        stroke: #ffa500;
+        stroke-dasharray: 6 12;
+        animation: flow-fast 0.8s linear infinite;
+      }
+      
+      .underglow {
+        animation: pulse 1.8s ease-in-out infinite;
+      }
+      
+      .scanner-line {
+        animation: scan 4s ease-in-out infinite;
+      }
+    </style>
+    
+    <!-- Clipping Paths -->
+    <clipPath id="graph-clip">
+      <rect x="50" y="90" width="400" height="100" />
+    </clipPath>
+    
+    <clipPath id="grid-clip">
+      <rect x="50" y="340" width="900" height="60" rx="6" />
+    </clipPath>
+    
+    <clipPath id="road-clip">
+      <rect x="471" y="295" width="478" height="20" />
+    </clipPath>
+    
+    <mask id="wheel-mask">
+      <rect width="400" height="120" fill="white" />
+      <circle cx="90" cy="95" r="32" fill="black" />
+      <circle cx="310" cy="95" r="32" fill="black" />
+    </mask>
+    
+    <!-- Patterns -->
+    <pattern id="card-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#131822" stroke-width="0.75"/>
+    </pattern>
+    
+    <pattern id="graph-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#161b22" stroke-width="0.5"/>
+    </pattern>
+    
+    <!-- Gradients -->
+    <linearGradient id="car-body-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffb347" />
+      <stop offset="100%" stop-color="#ff8c00" />
+    </linearGradient>
+    
+    <linearGradient id="glass-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#def3f6" />
+      <stop offset="100%" stop-color="#b0e0e6" opacity="0.7" />
+    </linearGradient>
+    
+    <linearGradient id="batt-soc-gradient" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#21572c" />
+      <stop offset="100%" stop-color="#3fb950" />
+    </linearGradient>
+    
+    <linearGradient id="sc-soc-gradient" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#11366b" />
+      <stop offset="100%" stop-color="#58a6ff" />
+    </linearGradient>
+  </defs>
+
+  <!-- Outer frame border with glowing tabs -->
+  <rect x="2" y="2" width="996" height="416" rx="8" fill="none" stroke="#21262d" stroke-width="1.5" />
+  <line x1="15" y1="2" x2="160" y2="2" stroke="#ff8c00" stroke-width="3" stroke-linecap="round" filter="drop-shadow(0 0 3px #ff8c00)" />
+  <line x1="840" y1="2" x2="985" y2="2" stroke="#58a6ff" stroke-width="3" stroke-linecap="round" filter="drop-shadow(0 0 3px #58a6ff)" />
+  <line x1="2" y1="15" x2="2" y2="70" stroke="#f2a154" stroke-width="2.5" stroke-linecap="round" filter="drop-shadow(0 0 2px #f2a154)" />
+  
+  <!-- Backboard Grid Gridline background -->
+  <rect x="5" y="5" width="990" height="410" fill="url(#card-grid)" opacity="0.4" pointer-events="none" />
+  
+  <!-- ==================== TOP HUD HEADER ==================== -->
+  <g transform="translate(0, 0)">
+    <!-- Centered glowing title -->
+    <text x="500" y="38" class="hud-title">EV REGENERATIVE SUSPENSION SIMULATOR</text>
+    <text x="500" y="54" class="hud-subtitle">EMS CONTROL • DUAL-BUFFER POWER ARCHITECTURE • SUSPENSION HARVESTING ACTIVE /</text>
+    
+    <!-- Top HUD horizontal dividing line -->
+    <line x1="40" y1="65" x2="960" y2="65" stroke="#21262d" stroke-width="1" />
+    
+    <!-- Top-Left Indicators -->
+    <g transform="translate(50, 20)">
+      <!-- EMS active status indicator -->
+      <circle cx="5" cy="5" r="4.5" class="ind-active-green" />
+      <text x="18" y="8" class="hud-label mono">EMS_CONTROLLER: <tspan class="green-glow-text">ACTIVE</tspan></text>
+      
+      <!-- Suspension active status indicator -->
+      <circle cx="5" cy="22" r="4.5" class="ind-active-orange" />
+      <text x="18" y="25" class="hud-label mono">REGEN_SUSPENSION: <tspan class="orange-glow-text">HARVESTING</tspan></text>
+      
+      <!-- Supercap active status indicator -->
+      <circle cx="175" cy="5" r="4.5" class="ind-active-blue" />
+      <text x="188" y="8" class="hud-label mono">SUPERCAPACITOR: <tspan class="blue-glow-text">CHARGING_SUSP</tspan></text>
+      
+      <!-- DC bus state -->
+      <circle cx="175" cy="22" r="4.5" class="ind-active-green" />
+      <text x="188" y="25" class="hud-label mono">DC_BUS_REGULATION: <tspan class="green-glow-text">OK</tspan></text>
+    </g>
+    
+    <!-- Top-Right Numeric Metrics -->
+    <g transform="translate(710, 20)">
+      <!-- Speed -->
+      <text x="0" y="8" class="hud-label mono">VEHICLE_SPEED:</text>
+      <text x="100" y="8" class="hud-value mono text-anchor-end">64 km/h</text>
+      
+      <!-- Power demand -->
+      <text x="0" y="25" class="hud-label mono">SUSP_HARVEST:</text>
+      <text x="100" y="25" class="hud-value mono text-anchor-end orange-glow-text">4.8 kW</text>
+      
+      <!-- System status -->
+      <text x="140" y="8" class="hud-label mono">SYS_STATE:</text>
+      <text x="240" y="8" class="hud-value mono text-anchor-end green-glow-text">ONLINE</text>
+      
+      <!-- Version/Telemetry -->
+      <text x="140" y="25" class="hud-label mono">ROAD_PROFILE:</text>
+      <text x="240" y="25" class="hud-value mono text-anchor-end yellow-glow-text">BUMPY</text>
+    </g>
+  </g>
+
+  <!-- ==================== LEFT DIAGNOSTIC WAVEFORM ==================== -->
+  <g transform="translate(0, 0)">
+    <!-- Section Border and Title -->
+    <rect x="50" y="80" width="400" height="120" rx="4" fill="#080c14" stroke="#161b22" stroke-width="1" />
+    
+    <!-- Oscilloscope Background Grid -->
+    <rect x="50" y="90" width="400" height="100" fill="url(#graph-grid)" clip-path="url(#graph-clip)" opacity="0.6" />
+    
+    <!-- Graph Center Axis Line -->
+    <line x1="50" y1="140" x2="450" y2="140" stroke="#21262d" stroke-dasharray="2 4" stroke-width="1" />
+    
+    <!-- Oscilloscope Waveform Legend -->
+    <g transform="translate(60, 102)">
+      <!-- Road Surface (Bumps) -->
+      <line x1="0" y1="-3" x2="12" y2="-3" stroke="#8b949e" stroke-width="1.5" stroke-dasharray="2 2" />
+      <text x="18" y="0" font-size="8px" fill="#8b949e" font-weight="bold" class="mono">ROAD_SURFACE</text>
+      
+      <!-- Susp Power Harvested -->
+      <line x1="100" y1="-3" x2="112" y2="-3" stroke="#ff8c00" stroke-width="1.5" />
+      <text x="118" y="0" font-size="8px" fill="#8b949e" font-weight="bold" class="mono">SUSP_HARVEST</text>
+      
+      <!-- Supercap SOC charge trend -->
+      <line x1="195" y1="-3" x2="207" y2="-3" stroke="#58a6ff" stroke-width="1.5" />
+      <text x="213" y="0" font-size="8px" fill="#8b949e" font-weight="bold" class="mono">SUPERCAP</text>
+    </g>
+
+    <!-- Graph Axis Labels -->
+    <text x="45" y="113" font-size="8px" fill="#8b949e" text-anchor="end" class="mono">+15kW</text>
+    <text x="45" y="143" font-size="8px" fill="#8b949e" text-anchor="end" class="mono">0.0</text>
+    <text x="45" y="173" font-size="8px" fill="#8b949e" text-anchor="end" class="mono">-15kW</text>
+    
+    <!-- Scrolling Waveforms inside Group -->
+    <g clip-path="url(#graph-clip)">
+      <g class="wave-scroll-group">
+        <!-- Road Surface (Grey Wavy Line, Period 200) -->
+        <path d="M 50 140 q 15 -12 30 -6 t 30 18 q 15 15 30 -15 t 30 -15 q 20 10 40 10 t 40 -10 q 15 -12 30 -6 t 30 18 q 15 15 30 -15 t 30 -15 q 20 10 40 10 t 40 -10 q 15 -12 30 -6 t 30 18 q 15 15 30 -15 t 30 -15 q 20 10 40 10 t 40 -10 q 15 -12 30 -6 t 30 18 q 15 15 30 -15 t 30 -15 q 20 10 40 10 t 40 -10" fill="none" stroke="#8b949e" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6" />
+        
+        <!-- Susp Power Harvested (Spiky Orange Line, Period 200) -->
+        <path d="M 50 140 l 10 -30 l 10 30 l 20 0 l 10 -45 l 10 45 l 20 0 l 10 25 l 10 -25 l 30 0 l 10 -35 l 10 35 l 50 0 l 10 -30 l 10 30 l 20 0 l 10 -45 l 10 45 l 20 0 l 10 25 l 10 -25 l 30 0 l 10 -35 l 10 35 l 50 0 l 10 -30 l 10 30 l 20 0 l 10 -45 l 10 45 l 20 0 l 10 25 l 10 -25 l 30 0 l 10 -35 l 10 35 l 50 0 l 10 -30 l 10 30 l 20 0 l 10 -45 l 10 45 l 20 0 l 10 25 l 10 -25 l 30 0 l 10 -35 l 10 35 l 50 0" fill="none" stroke="#ff8c00" stroke-width="2" />
+        
+        <!-- Supercap charge fluctuation (Solid Blue Line, Period 200) -->
+        <path d="M 50 140 q 25 -10 50 -5 t 50 5 q 25 12 50 6 t 50 -6 q 25 -10 50 -5 t 50 5 q 25 12 50 6 t 50 -6 q 25 -10 50 -5 t 50 5 q 25 12 50 6 t 50 -6 q 25 -10 50 -5 t 50 5 q 25 12 50 6 t 50 -6" fill="none" stroke="#58a6ff" stroke-width="2" opacity="0.8" />
+      </g>
+    </g>
+  </g>
+
+  <!-- ==================== LEFT CIRCUIT FLOW DIAGRAM ==================== -->
+  <g transform="translate(0, 0)">
+    <!-- Battery Node -->
+    <rect x="80" y="195" width="100" height="35" rx="4" fill="#0d1117" stroke="#3fb950" stroke-width="1.5" />
+    <rect x="92" y="201" width="10" height="6" rx="1" fill="none" stroke="#3fb950" stroke-width="1" />
+    <rect x="102" y="203" width="1.5" height="2" fill="#3fb950" />
+    <text x="110" y="207" font-size="9px" fill="#8b949e" font-weight="bold" class="mono">BATTERY</text>
+    <text x="130" y="223" font-size="10px" fill="#ffffff" font-weight="bold" class="mono">82% SOC</text>
+    
+    <!-- Supercapacitor Node -->
+    <rect x="80" y="255" width="100" height="35" rx="4" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5" />
+    <line x1="92" y1="261" x2="92" y2="269" stroke="#58a6ff" stroke-width="2" />
+    <line x1="96" y1="261" x2="96" y2="269" stroke="#58a6ff" stroke-width="2" />
+    <text x="106" y="268" font-size="9px" fill="#8b949e" font-weight="bold" class="mono">SUPERCAP</text>
+    <text x="130" y="283" font-size="10px" fill="#ffffff" font-weight="bold" class="mono">58% SOC</text>
+    
+    <!-- Regen Suspension Node -->
+    <rect x="80" y="315" width="100" height="35" rx="4" fill="#0d1117" stroke="#ff8c00" stroke-width="1.5" />
+    <!-- Small Spring logo -->
+    <path d="M 90 322 L 93 325 L 90 328 L 93 331 L 90 334 L 93 337 L 90 340" fill="none" stroke="#ff8c00" stroke-width="1" />
+    <text x="102" y="327" font-size="8px" fill="#8b949e" font-weight="bold" class="mono">REGEN_SUSP</text>
+    <text x="130" y="343" font-size="10px" fill="#ffffff" font-weight="bold" class="mono">+4.8 kW</text>
+    
+    <!-- DC Bus Node (Combiner) -->
+    <rect x="240" y="225" width="60" height="35" rx="4" fill="#0d1117" stroke="#8b949e" stroke-dasharray="4 2" stroke-width="1.5" />
+    <text x="270" y="238" font-size="8px" fill="#8b949e" font-weight="bold" text-anchor="middle" class="mono">DC BUS</text>
+    <text x="270" y="252" font-size="10px" fill="#ffffff" font-weight="bold" text-anchor="middle" class="mono">380 V</text>
+    
+    <!-- EV Motor Node -->
+    <rect x="360" y="225" width="100" height="35" rx="4" fill="#0d1117" stroke="#f2a154" stroke-width="1.5" />
+    <circle cx="372" cy="235" r="5" fill="none" stroke="#f2a154" stroke-width="1" />
+    <text x="372" y="238" font-size="7px" fill="#f2a154" text-anchor="middle" font-weight="bold" class="mono">M</text>
+    <text x="384" y="238" font-size="9px" fill="#8b949e" font-weight="bold" class="mono">EV MOTOR</text>
+    <text x="410" y="253" font-size="10px" fill="#ffffff" font-weight="bold" text-anchor="middle" class="mono">45 kW</text>
+
+    <!-- Circuit Connection Flow lines -->
+    <!-- Background outlines -->
+    <path d="M 180 212 H 210 V 242 H 240" class="flow-line-bg flow-batt-bg" />
+    <path d="M 180 272 H 240" class="flow-line-bg flow-sc-bg" />
+    <path d="M 180 332 H 210 V 282 H 180" class="flow-line-bg flow-susp-bg" />
+    <path d="M 300 242 H 360" class="flow-line-bg flow-motor-bg" />
+
+    <!-- Pulsating dots lines -->
+    <path d="M 180 212 H 210 V 242 H 240" class="flow-line flow-batt-fg" />
+    <path d="M 180 272 H 240" class="flow-line flow-sc-fg" />
+    <path d="M 180 332 H 210 V 282 H 180" class="flow-line flow-susp-fg" />
+    <path d="M 300 242 H 360" class="flow-line flow-motor-fg" />
+  </g>
+
+  <!-- ==================== RIGHT SIDE DUAL SOC THERMOMETER ==================== -->
+  <g transform="translate(860, 90)">
+    <!-- Scale Ticks and Labels -->
+    <text x="0" y="5" font-size="8px" fill="#8b949e" text-anchor="end" class="mono">100%</text>
+    <line x1="4" y1="2" x2="8" y2="2" stroke="#21262d" stroke-width="1" />
+    
+    <text x="0" y="45" font-size="8px" fill="#8b949e" text-anchor="end" class="mono">75%</text>
+    <line x1="4" y1="42" x2="8" y2="42" stroke="#21262d" stroke-width="1" />
+    
+    <text x="0" y="85" font-size="8px" fill="#8b949e" text-anchor="end" class="mono">50%</text>
+    <line x1="4" y1="82" x2="8" y2="82" stroke="#21262d" stroke-width="1" />
+    
+    <text x="0" y="125" font-size="8px" fill="#8b949e" text-anchor="end" class="mono">25%</text>
+    <line x1="4" y1="122" x2="8" y2="122" stroke="#21262d" stroke-width="1" />
+    
+    <text x="0" y="165" font-size="8px" fill="#8b949e" text-anchor="end" class="mono">0%</text>
+    <line x1="4" y1="162" x2="8" y2="162" stroke="#21262d" stroke-width="1" />
+    
+    <!-- Battery Level Bar (82% filled) -->
+    <!-- Frame -->
+    <rect x="15" y="0" width="16" height="162" rx="2" fill="none" stroke="#21262d" stroke-width="1.5" />
+    <!-- Filled area -->
+    <rect x="17" y="29.2" width="12" height="130.8" rx="1" fill="url(#batt-soc-gradient)" filter="drop-shadow(0 0 3px rgba(86, 211, 100, 0.4))" />
+    <text x="23" y="174" font-size="8px" fill="#8b949e" font-weight="bold" text-anchor="middle" class="mono">BATT</text>
+    
+    <!-- Supercap Level Bar (58% filled) -->
+    <!-- Frame -->
+    <rect x="42" y="0" width="16" height="162" rx="2" fill="none" stroke="#21262d" stroke-width="1.5" />
+    <!-- Filled area -->
+    <rect x="44" y="68" width="12" height="92" rx="1" fill="url(#sc-soc-gradient)" filter="drop-shadow(0 0 3px rgba(88, 166, 255, 0.4))" />
+    <text x="50" y="174" font-size="8px" fill="#8b949e" font-weight="bold" text-anchor="middle" class="mono">SCAP</text>
+    
+    <!-- Pointer Line Overlay for Battery -->
+    <line x1="10" y1="29.2" x2="33" y2="29.2" stroke="#56d364" stroke-width="1.5" />
+    <polygon points="8,29.2 12,26.5 12,31.9" fill="#56d364" />
+    
+    <!-- Pointer Line Overlay for Supercap -->
+    <line x1="39" y1="68" x2="62" y2="68" stroke="#58a6ff" stroke-width="1.5" />
+    <polygon points="64,68 60,65.3 60,70.7" fill="#58a6ff" />
+  </g>
+
+  <!-- ==================== CENTRAL EV SIMULATION AREA ==================== -->
+  <!-- Section Border and Title for EV Area -->
+  <rect x="470" y="80" width="480" height="245" rx="4" fill="#080c14" stroke="#161b22" stroke-width="1" />
+  <text x="485" y="98" font-size="9px" fill="#8b949e" font-weight="bold" class="mono">SIMULATED VEHICLE VEH_02 [REGEN_SUSP_ACTIVE]</text>
+  
+  <!-- Neon Horizon line -->
+  <line x1="470" y1="180" x2="950" y2="180" stroke="#ff8c00" stroke-width="1" opacity="0.25" filter="drop-shadow(0 0 3px #ff8c00)" />
+
+  <!-- Road Base (Wavy scrolling road surface representing bumps) -->
+  <g clip-path="url(#road-clip)">
+    <!-- Wavy surface background -->
+    <rect x="471" y="302" width="478" height="25" fill="#0d121d" />
+    
+    <!-- Scrolling Wavy Line -->
+    <g class="road-waves">
+      <path d="M 400 307 q 25 -6 50 -3 t 50 9 q 25 8 50 -8 t 50 -2 q 25 -6 50 -3 t 50 9 q 25 8 50 -8 t 50 -2 q 25 -6 50 -3 t 50 9 q 25 8 50 -8 t 50 -2 q 25 -6 50 -3 t 50 9 q 25 8 50 -8 t 50 -2 q 25 -6 50 -3 t 50 9 q 25 8 50 -8 t 50 -2" fill="none" stroke="#21262d" stroke-width="2.5" />
+    </g>
+  </g>
+  
+  <!-- Ground solid line -->
+  <line x1="470" y1="310" x2="950" y2="310" stroke="#30363d" stroke-width="1.5" />
+  
+  <!-- Road dashed lane marker line (static grid representation or flat scrolling road) -->
+  <line x1="470" y1="319" x2="950" y2="319" stroke="#8b949e" stroke-width="2" stroke-dasharray="15 20" class="road-dashes" />
+
+  <!-- Stylized Bouncing EV Car Group (Orange, facing right) -->
+  <g transform="translate(510, 195) scale(0.9)">
+    <!-- Neon Underglow -->
+    <rect class="underglow" x="50" y="80" width="280" height="5" fill="#58a6ff" opacity="0.9" filter="drop-shadow(0 4px 6px #58a6ff)" />
+    
+    <!-- Bouncing Car Chassis -->
+    <g class="car-group">
+      <!-- Body outline based on assets/car.svg -->
+      <!-- Lower Body / Bumper -->
+      <path d="M 360 95 L 40 95 L 20 85 L 20 70 L 30 65 L 370 65 L 380 75 L 380 90 Z" fill="#ff7f00" stroke="#cc7000" stroke-width="1.5" />
+      
+      <!-- Upper Body / Cabin -->
+      <path d="M 370 70 L 375 55 C 375 55, 365 45, 300 35 L 270 25 L 70 25 C 50 25, 40 35, 35 45 L 25 60 L 15 75 L 20 95 L 370 95 Z" fill="url(#car-body-gradient)" stroke="#cc7000" stroke-width="1.5" />
+
+      <!-- Door Lines -->
+      <path d="M 270 25 L 270 95" stroke="#cc7000" stroke-width="1" opacity="0.3" />
+      <path d="M 170 25 L 170 95" stroke="#cc7000" stroke-width="1" opacity="0.3" />
+      <path d="M 170 55 L 270 55" stroke="#cc7000" stroke-width="1" opacity="0.3" />
+      <circle cx="260" cy="50" r="2.5" fill="#cc7000" opacity="0.4" />
+      <circle cx="160" cy="50" r="2.5" fill="#cc7000" opacity="0.4" />
+      
+      <!-- Windows with glowing reflection -->
+      <path d="M 265 30 L 175 30 L 175 50 L 265 50 Z" fill="url(#glass-gradient)" stroke="#888" stroke-width="0.5" />
+      <path d="M 165 30 L 80 30 C 65 30, 55 40, 50 50 L 50 50 L 165 50 Z" fill="url(#glass-gradient)" stroke="#888" stroke-width="0.5" />
+      <path d="M 275 32 L 340 50 L 275 50 Z" fill="url(#glass-gradient)" stroke="#888" stroke-width="0.5" />
+      
+      <!-- Driver Silhouette -->
+      <circle cx="235" cy="40" r="8" fill="#161b22" opacity="0.4" />
+      <path d="M 235 48 C 240 55, 260 65, 265 70" stroke="#161b22" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.4" />
+      
+      <!-- Lights -->
+      <!-- Taillight (Red, Left) -->
+      <path d="M 25 55 C 15 55, 15 75, 25 75 Z" fill="#f44336" filter="drop-shadow(0 0 3px #f44336)" />
+      <!-- Headlight (Yellow light beam, Right) -->
+      <path d="M 375 60 L 355 55 L 355 65 Z" fill="#ffeb3b" opacity="0.8" filter="drop-shadow(0 0 4px #ffeb3b)" />
+      
+      <!-- Side Mirror -->
+      <path d="M 275 50 L 285 48 L 285 52 Z" fill="#ff8c00" stroke="#333" stroke-width="0.5" />
+
+      <!-- Interactive Regenerative Suspension spring nodes inside the body coordinates -->
+      <!-- Spring coil rear -->
+      <g class="susp-spring-rear" transform="translate(90, 60)">
+        <!-- Damper rod (metallic) -->
+        <line x1="0" y1="0" x2="0" y2="35" stroke="#c9d1d9" stroke-width="3" />
+        <!-- Spring coil (Orange/Gold zig-zag) -->
+        <path d="M 0 0 L -5 5 L 5 10 L -5 15 L 5 20 L -5 25 L 5 30 L 0 35" fill="none" stroke="#d29922" stroke-width="2.2" stroke-linejoin="round" />
+        <!-- Damper cylinder base -->
+        <rect x="-4" y="0" width="8" height="18" fill="#1c2128" stroke="#30363d" stroke-width="0.8" />
+        <!-- Glowing energy core -->
+        <circle cx="0" cy="9" r="2" fill="#ff8c00" class="underglow" />
+      </g>
+      
+      <!-- Spring coil front -->
+      <g class="susp-spring-front" transform="translate(310, 60)">
+        <!-- Damper rod (metallic) -->
+        <line x1="0" y1="0" x2="0" y2="35" stroke="#c9d1d9" stroke-width="3" />
+        <!-- Spring coil (Orange/Gold zig-zag) -->
+        <path d="M 0 0 L -5 5 L 5 10 L -5 15 L 5 20 L -5 25 L 5 30 L 0 35" fill="none" stroke="#d29922" stroke-width="2.2" stroke-linejoin="round" />
+        <!-- Damper cylinder base -->
+        <rect x="-4" y="0" width="8" height="18" fill="#1c2128" stroke="#30363d" stroke-width="0.8" />
+        <!-- Glowing energy core -->
+        <circle cx="0" cy="9" r="2" fill="#ff8c00" class="underglow" />
+      </g>
+    </g>
+    
+    <!-- Rotating Wheels (Spinning but not bouncing, fixed on the road) -->
+    <!-- Wheel wells -->
+    <circle cx="90" cy="95" r="24" fill="#080c14" />
+    <circle cx="310" cy="95" r="24" fill="#080c14" />
+    
+    <!-- Rear Wheel -->
+    <g transform="translate(90, 95)">
+      <g class="wheel-spokes">
+        <!-- Tire -->
+        <circle cx="0" cy="0" r="24" fill="none" stroke="#0d1117" stroke-width="3.5" />
+        <circle cx="0" cy="0" r="19" fill="none" stroke="#8b949e" stroke-width="2.2" />
+        <!-- Spokes -->
+        <line x1="-19" y1="0" x2="19" y2="0" stroke="#c9d1d9" stroke-width="2" />
+        <line x1="0" y1="-19" x2="0" y2="19" stroke="#c9d1d9" stroke-width="2" />
+        <line x1="-14" y1="-14" x2="14" y2="14" stroke="#c9d1d9" stroke-width="1.2" />
+        <line x1="-14" y1="14" x2="14" y2="-14" stroke="#c9d1d9" stroke-width="1.2" />
+        <!-- Valve Stem / Red Rotation Marker -->
+        <circle cx="11" cy="0" r="2.5" fill="#f85149" />
+        <circle cx="0" cy="0" r="5" fill="#484f58" />
+      </g>
+    </g>
+    
+    <!-- Front Wheel -->
+    <g transform="translate(310, 95)">
+      <g class="wheel-spokes">
+        <!-- Tire -->
+        <circle cx="0" cy="0" r="24" fill="none" stroke="#0d1117" stroke-width="3.5" />
+        <circle cx="0" cy="0" r="19" fill="none" stroke="#8b949e" stroke-width="2.2" />
+        <!-- Spokes -->
+        <line x1="-19" y1="0" x2="19" y2="0" stroke="#c9d1d9" stroke-width="2" />
+        <line x1="0" y1="-19" x2="0" y2="19" stroke="#c9d1d9" stroke-width="2" />
+        <line x1="-14" y1="-14" x2="14" y2="14" stroke="#c9d1d9" stroke-width="1.2" />
+        <line x1="-14" y1="14" x2="14" y2="-14" stroke="#c9d1d9" stroke-width="1.2" />
+        <!-- Valve Stem / Red Rotation Marker -->
+        <circle cx="11" cy="0" r="2.5" fill="#f85149" />
+        <circle cx="0" cy="0" r="5" fill="#484f58" />
+      </g>
+    </g>
+  </g>
+
+  <!-- ==================== BOTTOM HUD CRT DIAGNOSTIC PANEL ==================== -->
+  <g transform="translate(0, 0)">
+    <!-- Main screen bezel and frame -->
+    <rect x="50" y="340" width="900" height="60" rx="6" fill="#070b13" stroke="#3fb950" stroke-width="1.5" opacity="0.7" />
+    <rect x="50" y="340" width="900" height="60" fill="url(#card-grid)" clip-path="url(#grid-clip)" opacity="0.4" />
+    
+    <!-- Scrolling vertical grids inside clipped area -->
+    <g clip-path="url(#grid-clip)">
+      <path d="M 0 340 L 0 400 M 40 340 L 40 400 M 80 340 L 80 400 M 120 340 L 120 400 M 160 340 L 160 400 M 200 340 L 200 400 M 240 340 L 240 400 M 280 340 L 280 400 M 320 340 L 320 400 M 360 340 L 360 400 M 400 340 L 400 400 M 440 340 L 440 400 M 480 340 L 480 400 M 520 340 L 520 400 M 560 340 L 560 400 M 600 340 L 600 400 M 640 340 L 640 400 M 680 340 L 680 400 M 720 340 L 720 400 M 760 340 L 760 400 M 800 340 L 800 400 M 840 340 L 840 400 M 880 340 L 880 400 M 920 340 L 920 400 M 960 340 L 960 400 M 1000 340 L 1000 400" stroke="#3fb950" stroke-width="0.75" opacity="0.25" class="grid-lines" />
+    </g>
+    
+    <!-- Moving horizontal laser scope scanner -->
+    <g clip-path="url(#grid-clip)">
+      <line x1="50" y1="340" x2="950" y2="340" stroke="#3fb950" stroke-width="1.5" opacity="0.6" class="scanner-line" filter="drop-shadow(0 0 3px #3fb950)" />
+    </g>
+
+    <!-- Overlay Diagnostic HUD text values -->
+    <!-- Column 1: Thermal & Suspension Mech -->
+    <g transform="translate(65, 348)">
+      <text x="0" y="10" font-size="8.5px" fill="#8b949e" class="mono">SPRING_DISPLACE: <tspan fill="#ffffff" font-weight="bold">±4.2 mm</tspan></text>
+      <text x="0" y="22" font-size="8.5px" fill="#8b949e" class="mono">DAMPER_FORCE: <tspan fill="#ff8c00" font-weight="bold">1850 N</tspan></text>
+      <text x="0" y="34" font-size="8.5px" fill="#8b949e" class="mono">GEN_TORQUE: <tspan fill="#ff8c00" font-weight="bold">1.82 Nm</tspan></text>
+    </g>
+    
+    <!-- Column 2: System Metrics -->
+    <g transform="translate(340, 348)">
+      <text x="0" y="10" font-size="8.5px" fill="#8b949e" class="mono">SUSP_HARVEST_EFF: <tspan fill="#58a6ff" font-weight="bold">92.6%</tspan></text>
+      <text x="0" y="22" font-size="8.5px" fill="#8b949e" class="mono">PEAK_SHAVE_RATIO: <tspan fill="#58a6ff" font-weight="bold">1.85</tspan></text>
+      <text x="0" y="34" font-size="8.5px" fill="#8b949e" class="mono">EMS_CYCLE_LATENCY: <tspan fill="#58a6ff" font-weight="bold">0.10 ms</tspan></text>
+    </g>
+    
+    <!-- Column 3: Electrical status -->
+    <g transform="translate(620, 348)">
+      <text x="0" y="10" font-size="8.5px" fill="#8b949e" class="mono">BUS_HARVEST_CURR: <tspan fill="#f2a154" font-weight="bold">+12.6 A</tspan></text>
+      <text x="0" y="22" font-size="8.5px" fill="#8b949e" class="mono">DC_BUS_RIPPLE: <tspan fill="#56d364" font-weight="bold">&lt; 0.18%</tspan></text>
+      <text x="0" y="34" font-size="8.5px" fill="#8b949e" class="mono">EMS_INTEGRITY: <tspan fill="#56d364" font-weight="bold">100.0%</tspan></text>
+    </g>
+    
+    <!-- Column 4: Communication/Diagnostics status -->
+    <g transform="translate(830, 348)">
+      <text x="0" y="10" font-size="8.5px" fill="#8b949e" class="mono">GRID_SYNC: <tspan fill="#56d364" font-weight="bold">ONLINE</tspan></text>
+      <text x="0" y="22" font-size="8.5px" fill="#8b949e" class="mono">TELEMETRY: <tspan fill="#56d364" font-weight="bold">TX/RX</tspan></text>
+      <text x="0" y="34" font-size="8.5px" fill="#8b949e" class="mono">DIAG_SYS: <tspan fill="#56d364" font-weight="bold">OK</tspan></text>
+    </g>
+  </g>
+</svg>
