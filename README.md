@@ -5,9 +5,12 @@
 <p align="center">
   <img src="assets/regen_animation.svg" alt="Regenerative Suspension EV Simulation" width="100%">
 </p>
- 
-🔗 **Live Demo:**
-https://kuki-boi.github.io/Regenerative-Suspension/
+<div align="center">
+<a href="https://kuki-boi.github.io/Regenerative-Suspension/
+" target="_blank">
+  <img src="https://img.shields.io/badge/Live_Demo-3b82f6?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" />
+</a>
+</div>
 
 An interactive **Electric Vehicle (EV) energy system simulator** that demonstrates how **hybrid energy storage and regenerative suspension technologies work together** to improve vehicle efficiency.
 
